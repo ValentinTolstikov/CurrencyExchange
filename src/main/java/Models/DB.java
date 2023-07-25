@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import static javax.swing.text.html.parser.DTDConstants.ID;
 
 public class DB {
-    private static String url = "jdbc:mysql://localhost:3306";
+    private static String url = "jdbc:mysql://localhost:3306/currencyenchange";
     private static String username = "root";
     private static String password = "2005";
     //Methods for Currencies
