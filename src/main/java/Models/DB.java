@@ -183,7 +183,7 @@ public class DB {
         }
         return Exchanges;
     }
-    public static Exchangerates selectOneExchangerates(int id) {
+    public static Exchangerates selectOneExchangeratesById(int id) {
         Exchangerates exchangerate = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
@@ -192,6 +192,37 @@ public class DB {
                 String sql = "SELECT * FROM exchangerates WHERE ID=?";
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     preparedStatement.setInt(1, id);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    if (resultSet.next()) {
+
+                        int ID;
+                        int BaseCurrencyID;
+                        int TargetCurrencyID;
+                        double Rate;
+
+                        ID = resultSet.getInt("ID");
+                        BaseCurrencyID = resultSet.getInt("BaseCurrencyId");
+                        TargetCurrencyID = resultSet.getInt("TargetCurrencyId");
+                        Rate = resultSet.getDouble("Rate");
+                        exchangerate = new Exchangerates(ID, BaseCurrencyID,TargetCurrencyID,Rate);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return exchangerate;
+    }
+    public static Exchangerates selectOneExchangeratesByName(int base,int target) {
+        Exchangerates exchangerate = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+
+                String sql = "SELECT * FROM exchangerates WHERE (BaseCurrencyId=?)and (TargetCurrencyId=?)";
+                try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                    preparedStatement.setInt(1, base);
+                    preparedStatement.setInt(2,target);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     if (resultSet.next()) {
 
