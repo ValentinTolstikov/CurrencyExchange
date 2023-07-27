@@ -25,7 +25,7 @@ public class SelectCurrencyServlet extends HttpServlet {
 
         String CurrencyCode = request.getPathInfo().replaceFirst("/","").toUpperCase();
 
-        Currency currency = DB.selectOneCurrency(CurrencyCode);
+        Currency currency = DB.selectOneCurrencyByCode(CurrencyCode);
 
         if(currency==null){
             response.sendError(500,"Данная валюта отсутствует в базе");

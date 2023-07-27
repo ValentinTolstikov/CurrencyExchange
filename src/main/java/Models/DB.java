@@ -3,8 +3,6 @@ package Models;
 import java.sql.*;
 import java.util.ArrayList;
 
-import static javax.swing.text.html.parser.DTDConstants.ID;
-
 public class DB {
     private static String url = "jdbc:mysql://localhost:3306/currencyenchange";
     private static String username = "root";
@@ -40,8 +38,7 @@ public class DB {
         return Currencies;
     }
 
-    public static Currency selectOneCurrency(String Name) {
-
+    public static Currency selectOneCurrencyByCode(String Name) {
         Currency currency = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
@@ -61,6 +58,31 @@ public class DB {
                         Sign = resultSet.getString("Sign");
                         currency = new Currency(ID, Code, FullName, Sign);
                     }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return currency;
+    }
+    public static Currency selectOneCurrencyById(int Id) {
+        Currency currency = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Connection con = DriverManager.getConnection(url, username, password);
+            String sql = "SELECT * FROM currencies WHERE ID = "+Id;
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                int ID;
+                String Code;
+                String FullName;
+                String Sign;
+
+                ID = resultSet.getInt("ID");
+                Code = resultSet.getString("Code");
+                FullName = resultSet.getString("FullName");
+                Sign = resultSet.getString("Sign");
+                currency = new Currency(ID, Code, FullName, Sign);
+            }
         } catch (Exception ex) {
             System.out.println(ex);
         }
