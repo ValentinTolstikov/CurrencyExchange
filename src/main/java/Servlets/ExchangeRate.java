@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/exchangeRate/*")
-public class ExchangeServlet extends HttpServlet{
+public class ExchangeRate extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getPathInfo() == null || req.getPathInfo().equals("/")){

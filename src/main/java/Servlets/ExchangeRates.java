@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet("/exchangeRates")
-public class ExchangeRatesServlet extends HttpServlet {
+public class ExchangeRates extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Exchangerates> lstExchanges = DB.selectAllExchangeRates();

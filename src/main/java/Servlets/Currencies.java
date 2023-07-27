@@ -13,10 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet("/currencies")
-public class SelectAllCurrenciesServlet extends HttpServlet {
+public class Currencies extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<Currency> currencies = DB.selectAllCurrencies();

@@ -1,6 +1,5 @@
 package Servlets;
 
-import Models.Currency;
 import Models.DB;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -14,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/currency/*")
-public class SelectCurrencyServlet extends HttpServlet {
+public class Currency extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -25,7 +24,7 @@ public class SelectCurrencyServlet extends HttpServlet {
 
         String CurrencyCode = request.getPathInfo().replaceFirst("/","").toUpperCase();
 
-        Currency currency = DB.selectOneCurrencyByCode(CurrencyCode);
+        Models.Currency currency = DB.selectOneCurrencyByCode(CurrencyCode);
 
         if(currency==null){
             response.sendError(500,"Данная валюта отсутствует в базе");
