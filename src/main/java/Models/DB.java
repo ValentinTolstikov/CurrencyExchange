@@ -40,19 +40,16 @@ public class DB {
         return Currencies;
     }
 
-    public static Currency selectOneCurrency(int id) {
+    public static Currency selectOneCurrency(String Name) {
 
         Currency currency = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)) {
-
-                String sql = "SELECT * FROM currencies WHERE ID=?";
-                try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                    preparedStatement.setInt(1, id);
-                    ResultSet resultSet = preparedStatement.executeQuery();
-                    if (resultSet.next()) {
-
+                Connection con = DriverManager.getConnection(url, username, password);
+                String sql = "SELECT * FROM currencies WHERE Code='"+Name+"'";
+                Statement statement = con.createStatement();
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    while (resultSet.next()) {
                         int ID;
                         String Code;
                         String FullName;
@@ -64,8 +61,6 @@ public class DB {
                         Sign = resultSet.getString("Sign");
                         currency = new Currency(ID, Code, FullName, Sign);
                     }
-                }
-            }
         } catch (Exception ex) {
             System.out.println(ex);
         }

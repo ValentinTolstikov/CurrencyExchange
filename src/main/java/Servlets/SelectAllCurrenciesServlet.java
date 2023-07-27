@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/currencies")
 public class SelectAllCurrenciesServlet extends HttpServlet {
@@ -39,17 +40,33 @@ public class SelectAllCurrenciesServlet extends HttpServlet {
         }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-        String code = request.getParameter("code");
-        String name = request.getParameter("name");
-        String sign = request.getParameter("sign");
+        String code = null;
+        String name = null;
+        String sign = null;
+        code = request.getParameter("code");
+        name = request.getParameter("name");
+        sign = request.getParameter("sign");
 
         if(code.isEmpty()||name.isEmpty()||sign.isEmpty()){
-            response.setStatus(500);
+            response.sendError(400,"Отсутствует одно из полей формы");
+            return;
         }
-        else {
-            Currency c = new Currency(code,name,sign);
-            DB.insertCurrency(c);
-            doGet(request,response);
+
+        ArrayList<Currency> currencies = DB.selectAllCurrencies();
+
+        boolean isInBD = false;
+        for(int i=0;i<currencies.size();i++){
+            if(code.equals(currencies.get(i).getCode())){
+                isInBD=true;
+            }
         }
+        if(isInBD){
+            response.sendError(409,"Данная валюта уже существует");
+            return;
+        }
+
+        Currency c = new Currency(code,name,sign);
+        DB.insertCurrency(c);
+        doGet(request,response);
     }
 }
