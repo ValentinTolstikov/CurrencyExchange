@@ -37,6 +37,19 @@ public class SelectAllCurrenciesServlet extends HttpServlet {
                 ex.printStackTrace();
             }
         }
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+        String code = request.getParameter("code");
+        String name = request.getParameter("name");
+        String sign = request.getParameter("sign");
 
+        if(code.isEmpty()||name.isEmpty()||sign.isEmpty()){
+            response.setStatus(500);
+        }
+        else {
+            Currency c = new Currency(code,name,sign);
+            DB.insertCurrency(c);
+            doGet(request,response);
+        }
     }
 }

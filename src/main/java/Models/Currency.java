@@ -9,6 +9,11 @@ public class Currency implements Serializable {
     private String Sign;
 
 
+    public Currency( String code, String fullName, String sign) {
+        Code = code;
+        FullName = fullName;
+        Sign = sign;
+    }
     public Currency(int ID, String code, String fullName, String sign) {
         this.ID = ID;
         Code = code;
