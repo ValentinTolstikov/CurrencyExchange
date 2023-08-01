@@ -4,13 +4,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DB {
-    private static String url = "jdbc:mysql://localhost:3306/currencyenchange";
-    private static String username = "root";
-    private static String password = "2005";
+    private final static String url = "jdbc:mysql://localhost:3306/currencyenchange";
+    private final static String username = "root";
+    private final static String password = "2005";
     //Methods for Currencies
     public static ArrayList<Currency> selectAllCurrencies() {
 
-        ArrayList<Currency> Currencies = new ArrayList<Currency>();
+        ArrayList<Currency> Currencies = new ArrayList<>();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
@@ -59,6 +59,7 @@ public class DB {
                         currency = new Currency(ID, Code, FullName, Sign);
                     }
         } catch (Exception ex) {
+            System.out.println(ex);
         }
         return currency;
     }
@@ -155,7 +156,7 @@ public class DB {
 
     public static ArrayList<Exchangerate> selectAllExchangeRates() {
 
-        ArrayList<Exchangerate> Exchanges = new ArrayList<Exchangerate>();
+        ArrayList<Exchangerate> Exchanges = new ArrayList<>();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
