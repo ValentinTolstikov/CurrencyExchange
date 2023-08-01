@@ -59,7 +59,6 @@ public class DB {
                         currency = new Currency(ID, Code, FullName, Sign);
                     }
         } catch (Exception ex) {
-            System.out.println(ex);
         }
         return currency;
     }
@@ -154,9 +153,9 @@ public class DB {
 
     //Methods for ExchangeRates
 
-    public static ArrayList<Exchangerates> selectAllExchangeRates() {
+    public static ArrayList<Exchangerate> selectAllExchangeRates() {
 
-        ArrayList<Exchangerates> Exchanges = new ArrayList<Exchangerates>();
+        ArrayList<Exchangerate> Exchanges = new ArrayList<Exchangerate>();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
@@ -174,8 +173,8 @@ public class DB {
                     BaseCurrencyId = resultSet.getInt("BaseCurrencyId");
                     TargetCurrencyId = resultSet.getInt("TargetCurrencyId");
                     Rate = resultSet.getDouble("Rate");
-                    Exchangerates exchangerates = new Exchangerates(ID, BaseCurrencyId, TargetCurrencyId, Rate);
-                    Exchanges.add(exchangerates);
+                    Exchangerate exchangerate = new Exchangerate(ID, BaseCurrencyId, TargetCurrencyId, Rate);
+                    Exchanges.add(exchangerate);
                 }
             }
         } catch (Exception ex) {
@@ -183,8 +182,8 @@ public class DB {
         }
         return Exchanges;
     }
-    public static Exchangerates selectOneExchangeratesById(int id) {
-        Exchangerates exchangerate = null;
+    public static Exchangerate selectOneExchangeratesById(int id) {
+        Exchangerate exchangerate = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
@@ -204,7 +203,7 @@ public class DB {
                         BaseCurrencyID = resultSet.getInt("BaseCurrencyId");
                         TargetCurrencyID = resultSet.getInt("TargetCurrencyId");
                         Rate = resultSet.getDouble("Rate");
-                        exchangerate = new Exchangerates(ID, BaseCurrencyID,TargetCurrencyID,Rate);
+                        exchangerate = new Exchangerate(ID, BaseCurrencyID,TargetCurrencyID,Rate);
                     }
                 }
             }
@@ -213,8 +212,8 @@ public class DB {
         }
         return exchangerate;
     }
-    public static Exchangerates selectOneExchangeratesByName(int base,int target) {
-        Exchangerates exchangerate = null;
+    public static Exchangerate selectOneExchangeratesByBaseCurrencyID(int base, int target) {
+        Exchangerate exchangerate = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
@@ -235,7 +234,7 @@ public class DB {
                         BaseCurrencyID = resultSet.getInt("BaseCurrencyId");
                         TargetCurrencyID = resultSet.getInt("TargetCurrencyId");
                         Rate = resultSet.getDouble("Rate");
-                        exchangerate = new Exchangerates(ID, BaseCurrencyID,TargetCurrencyID,Rate);
+                        exchangerate = new Exchangerate(ID, BaseCurrencyID,TargetCurrencyID,Rate);
                     }
                 }
             }
@@ -244,27 +243,26 @@ public class DB {
         }
         return exchangerate;
     }
-    public static int insertExchangerate(Exchangerates exchangerates) {
-
+    public static int insertExchangerate(Exchangerate exchangerate) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
 
-                String sql = "INSERT INTO exchangerates (ID,BaseCurrencyId,TargetCurrencyId,Rate) Values (?,?,?,?)";
+                String sql = "INSERT into exchangerates (ID,BaseCurrencyId,TargetCurrencyId,Rate) values  (?,?,?,?)";
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                    preparedStatement.setInt(1, exchangerates.getID());
-                    preparedStatement.setInt(2, exchangerates.getBaseCurrencyId());
-                    preparedStatement.setInt(3, exchangerates.getTargetCurrencyId());
-                    preparedStatement.setDouble(4, exchangerates.getRate());
-                    return preparedStatement.executeUpdate();
+                    preparedStatement.setInt(1,exchangerate.getID());
+                    preparedStatement.setInt(2, exchangerate.getBaseCurrencyId());
+                    preparedStatement.setInt(3, exchangerate.getTargetCurrencyId());
+                    preparedStatement.setDouble(4, exchangerate.getRate());
+                    preparedStatement.executeUpdate();
                 }
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            return 1;
         }
         return 0;
     }
-    public static int updateExchangerate(Exchangerates exchangerate) {
+    public static int updateExchangerate(Exchangerate exchangerate) {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();

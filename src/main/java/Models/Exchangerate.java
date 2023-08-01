@@ -1,6 +1,6 @@
 package Models;
 
-public class Exchangerates {
+public class Exchangerate {
     private int ID;
     private int BaseCurrencyId;
     private int TargetCurrencyId;
@@ -39,8 +39,13 @@ public class Exchangerates {
 
     private double Rate;
 
-    public Exchangerates(int ID, int baseCurrencyId, int targetCurrencyId, double rate) {
+    public Exchangerate(int ID, int baseCurrencyId, int targetCurrencyId, double rate) {
         this.ID = ID;
+        BaseCurrencyId = baseCurrencyId;
+        TargetCurrencyId = targetCurrencyId;
+        Rate = rate;
+    }
+    public Exchangerate(int baseCurrencyId, int targetCurrencyId, double rate) {
         BaseCurrencyId = baseCurrencyId;
         TargetCurrencyId = targetCurrencyId;
         Rate = rate;

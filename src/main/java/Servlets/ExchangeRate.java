@@ -2,7 +2,7 @@ package Servlets;
 
 import Models.Currency;
 import Models.DB;
-import Models.Exchangerates;
+import Models.Exchangerate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -46,7 +46,7 @@ public class ExchangeRate extends HttpServlet{
             return;
         }
         baseId = base.getID();
-        Exchangerates exchangerate = DB.selectOneExchangeratesByName(baseId,TargetId);
+        Exchangerate exchangerate = DB.selectOneExchangeratesByBaseCurrencyID(baseId,TargetId);
         if(exchangerate == null){
             resp.sendError(404,"Обменный курс не найден");
             return;
