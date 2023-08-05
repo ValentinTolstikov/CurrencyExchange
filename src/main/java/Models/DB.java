@@ -264,24 +264,22 @@ public class DB {
         return 0;
     }
     public static int updateExchangerate(Exchangerate exchangerate) {
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
 
-                String sql = "UPDATE exchangerates SET ID = ?, BaseCurrencyId = ?, TargetCurrencyId = ?, Rate = ?,  WHERE ID = ?";
+                String sql = "UPDATE exchangerates SET BaseCurrencyId = ?, TargetCurrencyId = ?, Rate = ?  WHERE ID = ?";
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                    preparedStatement.setInt(1, exchangerate.getID());
-                    preparedStatement.setInt(2, exchangerate.getBaseCurrencyId());
-                    preparedStatement.setInt(3, exchangerate.getTargetCurrencyId());
-                    preparedStatement.setDouble(4, exchangerate.getRate());
-                    preparedStatement.setInt(5, exchangerate.getID());
+                    preparedStatement.setInt(1, exchangerate.getBaseCurrencyId());
+                    preparedStatement.setInt(2, exchangerate.getTargetCurrencyId());
+                    preparedStatement.setDouble(3, exchangerate.getRate());
+                    preparedStatement.setInt(4, exchangerate.getID());
 
-                    return preparedStatement.executeUpdate();
+                    preparedStatement.executeUpdate();
                 }
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            return 1;
         }
         return 0;
     }
